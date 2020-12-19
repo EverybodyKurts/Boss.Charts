@@ -11,3 +11,23 @@ let colors =
        Mustard = Color.create (Red 255) (Green 193) (Blue 7)
        Blue = Color.create (Red 23) (Green 162) (Blue 1)
     |}
+
+type Label = Label of string
+type Height = Height of float
+type Stack = Stack of string
+type XAxisID = XAxisID of string
+
+module StandardDeviation =
+    type Band =
+        { Label: Label
+          Height: Height
+          BackgroundColor: Color
+          Stack: Stack
+          XAxisID: XAxisID }
+
+    let createBand height label bgColor =
+        { Label = label
+          Height = height
+          BackgroundColor = bgColor
+          Stack = (Stack "sd")
+          XAxisID = (XAxisID "std-dev") }
