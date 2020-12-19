@@ -6,6 +6,7 @@
     <None Include="index.html" />
     <Compile Include="Extensions.fs" />
     <Compile Include="Color.fs" />
+    <Compile Include="Cockpit.fs" />
     <Compile Include="App.fs" />
     <Compile Include="Main.fs" />
   </ItemGroup>
