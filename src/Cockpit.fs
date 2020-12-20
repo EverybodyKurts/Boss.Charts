@@ -21,6 +21,9 @@ type Band =
       Height: Height
       BackgroundColor: Color }
 
+type InventoryTarget = InventoryTarget of int
+type OrderPoint = OrderPoint of int
+
 module SD =
     let toJS band =
         let (Label label) = band.Label
@@ -43,3 +46,23 @@ module Inventory =
            data = [| height |]
            backgroundColor = toRGBAstring color
            xAxisID = "inventory" |}
+
+module InventoryTargetLine =
+    let toJS (InventoryTarget it) =
+        {| label = "Inventory Target"
+           ``type`` = "line"
+           xAxisID = "std-dev"
+           borderColor = "black"
+           borderWidth = 2 
+           fill = false
+           data = [| it; it |] |}
+
+module OrderPointLine =
+    let toJs (OrderPoint op) =
+        {| label = "Order Point"
+           ``type`` = "line"
+           xAxisID = "std-dev"
+           borderColor = toRGBAstring colors.Mustard
+           borderWidth = 2
+           fill = false 
+           data = [| op; op |] |}
