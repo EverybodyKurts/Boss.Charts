@@ -17,17 +17,19 @@ type Height = Height of float
 type Stack = Stack of string
 type XAxisID = XAxisID of string
 
-module StandardDeviation =
+module SD =
     type Band =
         { Label: Label
           Height: Height
-          BackgroundColor: Color
-          Stack: Stack
-          XAxisID: XAxisID }
+          BackgroundColor: Color }
 
-    let createBand height label bgColor =
-        { Label = label
-          Height = height
-          BackgroundColor = bgColor
-          Stack = (Stack "sd")
-          XAxisID = (XAxisID "std-dev") }
+    let toJS band =
+        let (Label label) = band.Label
+        let (Height height) = band.Height
+        let color = band.BackgroundColor
+
+        {| label = label
+           data = [| height |] 
+           stack = "sd"
+           xAxisID = "std-dev"
+           backgroundColor = toRGBAstring color |}
