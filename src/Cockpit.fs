@@ -9,8 +9,7 @@ let colors =
        Black = Color.create (Red 0) (Green 0) (Blue 0)
        DarkGreen = Color.create (Red 40) (Green 167) (Blue 69)
        Mustard = Color.create (Red 255) (Green 193) (Blue 7)
-       Blue = Color.create (Red 23) (Green 162) (Blue 1)
-    |}
+       Blue = Color.create (Red 23) (Green 162) (Blue 1) |}
 
 type Label = Label of string
 type Height = Height of float
@@ -29,7 +28,7 @@ module SD =
         let color = band.BackgroundColor
 
         {| label = label
-           data = [| height |] 
+           data = [| height |]
            stack = "sd"
            xAxisID = "std-dev"
            backgroundColor = toRGBAstring color |}
@@ -41,6 +40,6 @@ module Inventory =
         let color = band.BackgroundColor
 
         {| label = label
-           data = [| height |] 
-           backgroundColor = toRGBAstring color 
+           data = [| height |]
+           backgroundColor = toRGBAstring color
            xAxisID = "inventory" |}

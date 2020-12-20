@@ -13,7 +13,7 @@ let sdBand =
 
 let sdObj = Cockpit.SD.toJS sdBand
 
-JS.console.log(sdObj)
+JS.console.log (sdObj)
 
 [<ReactComponent>]
 let HelloWorld () = Html.h1 $"Hello world {sdObj}"
