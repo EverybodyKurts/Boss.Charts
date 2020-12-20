@@ -17,12 +17,12 @@ type Height = Height of float
 type Stack = Stack of string
 type XAxisID = XAxisID of string
 
-module SD =
-    type Band =
-        { Label: Label
-          Height: Height
-          BackgroundColor: Color }
+type Band =
+    { Label: Label
+      Height: Height
+      BackgroundColor: Color }
 
+module SD =
     let toJS band =
         let (Label label) = band.Label
         let (Height height) = band.Height
@@ -33,3 +33,14 @@ module SD =
            stack = "sd"
            xAxisID = "std-dev"
            backgroundColor = toRGBAstring color |}
+
+module Inventory =
+    let toJS band =
+        let (Label label) = band.Label
+        let (Height height) = band.Height
+        let color = band.BackgroundColor
+
+        {| label = label
+           data = [| height |] 
+           backgroundColor = toRGBAstring color 
+           xAxisID = "inventory" |}
