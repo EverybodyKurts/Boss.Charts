@@ -1,13 +1,19 @@
 module App
 
+open Fable.Core
 open Feliz
 
-open Color
+open Cockpit
+open Cockpit.SD
 
-let color =
-    Color.create (Red 0) (Green 255) (Blue 255)
+let sdBand =
+    { Label = (Label "-3 sd")
+      Height = (Height 50.0)
+      BackgroundColor = colors.Black }
 
-let colorString = Color.toRGBAstring color
+let sdObj = Cockpit.SD.toJS sdBand
+
+JS.console.log(sdObj)
 
 [<ReactComponent>]
-let HelloWorld () = Html.h1 $"Hello world {colorString}"
+let HelloWorld () = Html.h1 $"Hello world {sdObj}"
