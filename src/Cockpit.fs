@@ -6,13 +6,11 @@ type Cockpit =
     { StandardDeviation: StandardDeviation
       InventoryTarget: InventoryTarget
       InventoryAmount: InventoryAmount
-      OrderPoint: OrderPoint
-      InventoryDesignation: InventoryDesignation }
-and StandardDeviation = StandardDeviation of int
-and InventoryTarget = InventoryTarget of int
-and InventoryAmount = NormalAmount of amount: int | ExcessiveAmount of amount: int
-and OrderPoint = OrderPoint of int
-and InventoryDesignation = Normal | Excessive
+      OrderPoint: OrderPoint }
+and StandardDeviation = StandardDeviation of sd: uint
+and InventoryTarget = InventoryTarget of inventoryTarget: uint
+and InventoryAmount = NormalAmount of amount: uint | ExcessiveAmount of amount: uint
+and OrderPoint = OrderPoint of orderPoint: uint
 
 let colors =
     {| Red = Color.create (Red 255) (Green 0) (Blue 0)
@@ -23,8 +21,8 @@ let colors =
        Mustard = Color.create (Red 255) (Green 193) (Blue 7)
        Blue = Color.create (Red 23) (Green 162) (Blue 1) |}
 
-type Stack = Stack of string
-type XAxisID = XAxisID of string
+type Stack = Stack of stackName: string
+type XAxisID = XAxisID of xAxisId: string
 
 type Band =
     { Label: Label
