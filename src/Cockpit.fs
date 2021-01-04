@@ -34,10 +34,16 @@ and Label = Label of string
 and Height = Height of float
 
 module SD =
-    let toBands (StandardDeviation sd) =
-        let redBand label = { Label = (Label label); Height = (Height (float sd)); BackgroundColor = colors.Red }
-        let yellowBand label = { Label = (Label label); Height = (Height (float sd)); BackgroundColor = colors.Yellow }
-        let greenBand label = { Label = (Label label); Height = (Height (float sd)); BackgroundColor = colors.Green }
+    let toHeight (StandardDeviation sd) =
+        Height (float sd)
+
+    let toBands (sd: StandardDeviation) =
+        let sdHeight = toHeight sd
+        let toBand color label = { Label = (Label label); Height = sdHeight; BackgroundColor = color }
+
+        let redBand = toBand colors.Red
+        let yellowBand = toBand colors.Yellow
+        let greenBand = toBand colors.Green
 
         [
             redBand "-3 sd"
@@ -49,8 +55,7 @@ module SD =
         ]
 
     let toJS band =
-        let (Label label) = band.Label
-        let (Height height) = band.Height
+        let (Label label, Height height) = (band.Label, band.Height)
         let color = band.BackgroundColor
 
         {| label = label
@@ -60,15 +65,23 @@ module SD =
            backgroundColor = toRGBAstring color |}
 
 module InventoryAmount =
+    let toHeight inventoryAmount =
+        match inventoryAmount with
+        | NormalAmount amt -> Height (float amt)
+        | ExcessiveAmount amt -> Height (float amt)
+
+    let toColor inventoryAmount =
+        match inventoryAmount with
+        | NormalAmount _ -> colors.DarkGreen
+        | ExcessiveAmount _ -> colors.Blue
+
     let toBand (inventoryAmount: InventoryAmount) =
-        let (amount, bgColor) =
-            match inventoryAmount with
-            | NormalAmount amt -> (amt, colors.DarkGreen)
-            | ExcessiveAmount amt -> (amt, colors.Blue)
+        let height = toHeight inventoryAmount
+        let color = toColor inventoryAmount
 
         { Label = Label "Inventory Amount"
-          Height = Height (float amount)
-          BackgroundColor = bgColor }
+          Height = height
+          BackgroundColor = color }
 
     let toJS band =
         let (Label label, Height height) = (band.Label, band.Height)
@@ -80,14 +93,14 @@ module InventoryAmount =
            xAxisID = "inventory" |}
 
 module InventoryTargetLine =
-    let toJS (InventoryTarget it) =
+    let toJS (InventoryTarget inventoryTarget) =
         {| label = "Inventory Target"
            ``type`` = "line"
            xAxisID = "std-dev"
            borderColor = "black"
            borderWidth = 2
            fill = false
-           data = [| it; it |] |}
+           data = [| inventoryTarget; inventoryTarget |] |}
 
 module OrderPointLine =
     let toJs (OrderPoint op) =
