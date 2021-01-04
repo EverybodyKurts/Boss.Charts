@@ -2,6 +2,17 @@ module Cockpit
 
 open Color
 
+type Cockpit =
+    { StandardDeviation: StandardDeviation
+      InventoryTarget: InventoryTarget
+      CurrentInventoryAmount: CurrentInventoryAmount
+      OrderPoint: OrderPoint
+      ExcessiveInventory: bool }
+and StandardDeviation = StandardDeviation of int
+and InventoryTarget = InventoryTarget of int
+and CurrentInventoryAmount = CurrentInventoryAmount of int
+and OrderPoint = OrderPoint of int
+
 let colors =
     {| Red = Color.create (Red 255) (Green 0) (Blue 0)
        Yellow = Color.create (Red 255) (Green 255) (Blue 0)
@@ -11,8 +22,6 @@ let colors =
        Mustard = Color.create (Red 255) (Green 193) (Blue 7)
        Blue = Color.create (Red 23) (Green 162) (Blue 1) |}
 
-type Label = Label of string
-type Height = Height of float
 type Stack = Stack of string
 type XAxisID = XAxisID of string
 
@@ -20,11 +29,24 @@ type Band =
     { Label: Label
       Height: Height
       BackgroundColor: Color }
-
-type InventoryTarget = InventoryTarget of int
-type OrderPoint = OrderPoint of int
+and Label = Label of string
+and Height = Height of float
 
 module SD =
+    let toBands (StandardDeviation sd) =
+        let redBand label = { Label = (Label label); Height = (Height (float sd)); BackgroundColor = colors.Red }
+        let yellowBand label = { Label = (Label label); Height = (Height (float sd)); BackgroundColor = colors.Yellow }
+        let greenBand label = { Label = (Label label); Height = (Height (float sd)); BackgroundColor = colors.Green }
+
+        [
+            redBand "-3 sd"
+            yellowBand "-2 sd"
+            greenBand "-1 sd"
+            greenBand "1 sd"
+            yellowBand "2 sd"
+            redBand "3 sd"
+        ]
+
     let toJS band =
         let (Label label) = band.Label
         let (Height height) = band.Height
@@ -38,8 +60,7 @@ module SD =
 
 module Inventory =
     let toJS band =
-        let (Label label) = band.Label
-        let (Height height) = band.Height
+        let (Label label, Height height) = (band.Label, band.Height)
         let color = band.BackgroundColor
 
         {| label = label
