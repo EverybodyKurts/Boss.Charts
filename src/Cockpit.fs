@@ -5,13 +5,14 @@ open Color
 type Cockpit =
     { StandardDeviation: StandardDeviation
       InventoryTarget: InventoryTarget
-      CurrentInventoryAmount: CurrentInventoryAmount
+      InventoryAmount: InventoryAmount
       OrderPoint: OrderPoint
-      ExcessiveInventory: bool }
+      InventoryDesignation: InventoryDesignation }
 and StandardDeviation = StandardDeviation of int
 and InventoryTarget = InventoryTarget of int
-and CurrentInventoryAmount = CurrentInventoryAmount of int
+and InventoryAmount = NormalAmount of amount: int | ExcessiveAmount of amount: int
 and OrderPoint = OrderPoint of int
+and InventoryDesignation = Normal | Excessive
 
 let colors =
     {| Red = Color.create (Red 255) (Green 0) (Blue 0)
@@ -58,7 +59,17 @@ module SD =
            xAxisID = "std-dev"
            backgroundColor = toRGBAstring color |}
 
-module Inventory =
+module InventoryAmount =
+    let toBand (inventoryAmount: InventoryAmount) =
+        let (amount, bgColor) =
+            match inventoryAmount with
+            | NormalAmount amt -> (amt, colors.DarkGreen)
+            | ExcessiveAmount amt -> (amt, colors.Blue)
+
+        { Label = Label "Inventory Amount"
+          Height = Height (float amount)
+          BackgroundColor = bgColor }
+
     let toJS band =
         let (Label label, Height height) = (band.Label, band.Height)
         let color = band.BackgroundColor
