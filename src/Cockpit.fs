@@ -53,7 +53,7 @@ module InventoryTargetLine =
            ``type`` = "line"
            xAxisID = "std-dev"
            borderColor = "black"
-           borderWidth = 2 
+           borderWidth = 2
            fill = false
            data = [| it; it |] |}
 
@@ -64,5 +64,5 @@ module OrderPointLine =
            xAxisID = "std-dev"
            borderColor = toRGBAstring colors.Mustard
            borderWidth = 2
-           fill = false 
+           fill = false
            data = [| op; op |] |}
