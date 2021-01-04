@@ -8,7 +8,7 @@ open Cockpit.SD
 
 let sdBand =
     { Label = (Label "-3 sd")
-      Height = (Height 50.0)
+      Height = (Height 50u)
       BackgroundColor = colors.Black }
 
 let sdObj = Cockpit.SD.toJS sdBand

@@ -28,12 +28,12 @@ type Band =
     { Label: Label
       Height: Height
       BackgroundColor: Color }
-and Label = Label of string
-and Height = Height of float
+and Label = Label of label: string
+and Height = Height of height: uint
 
 module SD =
     let toHeight (StandardDeviation sd) =
-        Height (float sd)
+        Height sd
 
     let toBands (sd: StandardDeviation) =
         let sdHeight = toHeight sd
@@ -65,8 +65,8 @@ module SD =
 module InventoryAmount =
     let toHeight inventoryAmount =
         match inventoryAmount with
-        | NormalAmount amt -> Height (float amt)
-        | ExcessiveAmount amt -> Height (float amt)
+        | NormalAmount amt -> Height amt
+        | ExcessiveAmount amt -> Height amt
 
     let toColor inventoryAmount =
         match inventoryAmount with
