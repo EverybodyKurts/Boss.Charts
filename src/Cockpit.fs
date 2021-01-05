@@ -109,3 +109,27 @@ module OrderPointLine =
            borderWidth = 2
            fill = false
            data = [| op; op |] |}
+
+module Chart =
+    let sdAxis =
+        {| id = "inventory"
+           ``type`` = "category"
+           categoryPercentage = 0.8
+           barPercentage = 1.0
+           display = true |}
+
+    let inventoryAxis =
+        {| id = "std-dev"
+           ``type`` = "category"
+           categoryPercentage = 0.2
+           barPercentage = 1.0
+           display = false |}
+
+    let options (cockpit: Cockpit) =
+        let (StandardDeviation sd) = cockpit.StandardDeviation
+
+        {| legend = {| display = false |}
+           scales =
+               {| xAxes = [ sdAxis; inventoryAxis ]
+                  yAxes = [{| ticks =
+                              {| max = sd * 6u |} |}] |} |}
